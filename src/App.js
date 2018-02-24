@@ -4,7 +4,6 @@ import VideoSearch from './components/VideoSearch';
 import VideoDetails from './components/VideoDetails';
 import VideoList from './components/VideoList';
 
-const API_KEY = "AIzaSyCBv5bkyRaiMD5wfdgeR0j_ao51fLDB50o"
 
 class App extends React.Component {
 
@@ -13,10 +12,14 @@ class App extends React.Component {
 
     this.state = {
       videos: [],
-      selectedVideo: null
+      selectedVideo: null,
+      searchTerms: [
+        'hockey', 'soccer', 'baseball', 'comedy', 'olympics', 'subaru'
+      ]
     }
 
-    this.VideoSearch('hockey')
+    const newTerm = this.state.searchTerms[Math.floor(Math.random() * this.state.searchTerms.length)]
+    this.VideoSearch(newTerm)
   }
 
 
@@ -24,18 +27,19 @@ class App extends React.Component {
     YTSearch({key: API_KEY, term}, (videos) => {
       this.setState({
         videos,
-        selectedVideo: videos[1]
+        selectedVideo: videos[Math.floor(Math.random() * videos.length)]
       })
     })
   }
 
   render() {
-    console.log(this.state);
     return (
-      <div className="App">
+      <div className="container">
         <VideoSearch onSearchTermChange={(term) => {this.VideoSearch(term)}}/>
-        <VideoDetails video={this.state.selectedVideo}/>
-        <VideoList videos={this.state.videos}/>
+        <div className="row">
+          <VideoDetails video={this.state.selectedVideo}/>
+          <VideoList videos={this.state.videos} onVideoSelect={(selectedVideo)=>{this.setState({selectedVideo})}}/>
+        </div>
       </div>
     );
   }
