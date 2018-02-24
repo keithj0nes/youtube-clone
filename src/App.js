@@ -1,18 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import YTSearch from 'youtube-api-search';
+import VideoSearch from './components/VideoSearch';
+import VideoDetails from './components/VideoDetails';
+import VideoList from './components/VideoList';
 
-class App extends Component {
+
+class App extends React.Component {
+
+  constructor(){
+    super();
+
+    this.state = {
+      videos: [],
+      selectedVideo: null
+    }
+
+    this.VideoSearch('hockey')
+  }
+
+
+  VideoSearch(term){
+    YTSearch({key: API_KEY, term}, (videos) => {
+      this.setState({
+        videos,
+        selectedVideo: videos[1]
+      })
+    })
+  }
+
   render() {
+    console.log(this.state);
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <VideoSearch onSearchTermChange={(term) => {this.VideoSearch(term)}}/>
+        <VideoDetails video={this.state.selectedVideo}/>
+        <VideoList />
       </div>
     );
   }
