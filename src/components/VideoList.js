@@ -4,10 +4,15 @@ import VideoListItem from './VideoListItem';
 
 const VideoList = (props) => {
 
+  console.log(props, 'props');
   return (
-    <div className="col-md-4">
-      <VideoListItem/>
-    </div>
+    <ul className="col-md-4 list-group">
+      {
+        props.videos.map((v, i) => {
+          return <VideoListItem key={i} details={v}/>
+        })
+      }
+    </ul>
   )
 }
 

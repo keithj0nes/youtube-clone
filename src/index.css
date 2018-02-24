@@ -2,4 +2,16 @@
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  list-style-type: none;
+}
+
+
+.video-search {
+  background: red;
+  margin: 20px;
+  text-align: center;
+}
+
+.video-search input {
+  width: 75%;
 }
